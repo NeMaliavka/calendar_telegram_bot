@@ -3,13 +3,15 @@ import logging
 from dotenv import load_dotenv
 from pathlib import Path
 
-# Загружаем .env из корня проекта
-env_path = Path(__file__).parent.parent / '.env'
-if env_path.exists():
-    load_dotenv(env_path, override=True)
-else:
-    # Пробуем загрузить из текущей директории
-    load_dotenv(override=True)
+# Загружаем переменные окружения из файла .env
+load_dotenv()
+# # Загружаем .env из корня проекта
+# env_path = Path(__file__).parent.parent / '.env'
+# if env_path.exists():
+#     load_dotenv(env_path, override=True)
+# else:
+#     # Пробуем загрузить из текущей директории
+#     load_dotenv(override=True)
 
 # Настройка SSL-сертификата (если необходимо)
 # Для работы с GigaChat API может потребоваться отключение проверки SSL

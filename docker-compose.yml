@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # Основной сервис бота
+  bot:
+    build: .
+    container_name: calendar_telegram_bot
+    restart: unless-stopped
+    mem_limit: 4g
+    command: ["python", "run_bot.py"]
+
+    environment:
+      {}
+   
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Сервис для фоновых задач (scheduler)
+  scheduler:
+    build: .
+    container_name: calendar_scheduler
+    restart: unless-stopped
+    mem_limit: 2g
+    command: ["python", "-m", "backend.scheduler.runner"]
+
+    environment:
+      {}
+   
+    depends_on:
+      bot:
+        condition: service_healthy
+
+
+
